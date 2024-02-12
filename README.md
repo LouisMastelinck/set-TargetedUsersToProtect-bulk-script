@@ -10,7 +10,9 @@ But it contains a painfull process of having to indivually click all the users y
 # set -TargetedUsersToProtect-bulk-script
 
 **Requirement**
+
 Installation of the exchange online powershell module: 
+
 https://learn.microsoft.com/en-us/powershell/exchange/exchange-online-powershell-v2?view=exchange-ps#install-and-maintain-the-exchange-online-powershell-module
 
 
