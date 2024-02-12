@@ -1,0 +1,74 @@
+# Connect to Exchange Online
+Connect-ExchangeOnline -UserPrincipalName <Your UPN> -ShowProgress $true
+
+# Fetch all anti-phish policies
+$antiPhishPolicies = Get-AntiPhishPolicy
+
+# Display policies with numbers
+Write-Host "Anti-Phish Policies:"
+for ($i = 0; $i -lt $antiPhishPolicies.Count; $i++) {
+    Write-Host "$($i+1). $($antiPhishPolicies[$i].Name)"
+}
+
+# Prompt user to select a policy
+$selectedPolicyIndex = Read-Host "Enter the number corresponding to the anti-phish policy you want to use"
+
+# Validate user input
+if ($selectedPolicyIndex -lt 1 -or $selectedPolicyIndex -gt $antiPhishPolicies.Count) {
+    Write-Host "Invalid selection. Please enter a number within the range." -ForegroundColor Red
+    exit
+}
+
+# Get the selected policy
+$selectedPolicy = $antiPhishPolicies[$selectedPolicyIndex - 1]
+
+# Check if -EnableTargetedUserProtection is enabled
+if (-not $selectedPolicy.EnableTargetedUserProtection) {
+    $enableTargetedUserProtection = Read-Host "Do you want to enable targeted user protection? (Y/N)"
+    while ($enableTargetedUserProtection -ne "Y" -and $enableTargetedUserProtection -ne "y" -and $enableTargetedUserProtection -ne "N" -and $enableTargetedUserProtection -ne "n") {
+        $enableTargetedUserProtection = Read-Host "Invalid input. Do you want to enable targeted user protection? (Y/N)"
+    }
+    if ($enableTargetedUserProtection -eq "Y" -or $enableTargetedUserProtection -eq "y") {
+        Set-AntiPhishPolicy -Identity $selectedPolicy.Identity -EnableTargetedUserProtection $true
+        Write-Host "Targeted user protection has been enabled for the selected policy."
+    }
+    else {
+        Write-Host "Skipping adding users to impersonation protection as targeted user protection is not enabled."
+        exit
+    }
+}
+
+# Prompt user to enter the path to the CSV file containing users to add
+$csvPath = Read-Host "Enter the path to the CSV file containing users to add"
+
+# Validate CSV file path
+if (-not (Test-Path $csvPath)) {
+    Write-Host "Invalid file path. Please enter a valid path to a CSV file." -ForegroundColor Red
+    exit
+}
+
+# Read users from CSV
+$users = Import-Csv $csvPath 
+
+# Validate CSV file format
+if (-not ($users[0].PSObject.Properties.Name -contains 'username;upn')) {
+    Write-Host "Invalid CSV file format. The file should contain a 'username;upn' column."
+    exit
+}
+
+# Initialize an empty array
+$list = @()
+
+foreach ($user in $users) {
+    Write-Host $user.'username;upn'
+    # Add users to impersonation protection using the selected policy
+    $list += $user.'username;upn'
+}
+Write-Host "List of UPN's: $($list)"
+Set-AntiPhishPolicy -Identity $selectedPolicy.Identity -TargetedUsersToProtect $list
+
+# Disconnect from Exchange Online
+Disconnect-ExchangeOnline -Confirm:$false
+
+
+
