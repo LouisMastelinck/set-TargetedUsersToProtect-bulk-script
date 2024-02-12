@@ -11,5 +11,6 @@ But it contains a painfull process of having to indivually click all the users y
 
 This script will allow you to import a CSV that contains all of your users that you want to protect from impersonation. 
 A sample CSV is provided so you know how to format it. 
+
 ![image](https://github.com/LouisMastelinck/set--TargetedUsersToProtect-bulk-script/assets/17981130/d18238b0-506d-4853-aa40-545eee72102e)
 
