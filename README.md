@@ -1,4 +1,4 @@
-#Set user impersonation protection in bulk
+# Set user impersonation protection in bulk
 
 Impersonation protection allows you mark 350 VIP users to have them aditionally protect from attack who try to impersonate them. 
 You can add them indivially in your policies. 
