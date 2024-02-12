@@ -9,7 +9,9 @@ But it contains a painfull process of having to indivually click all the users y
 
 # set -TargetedUsersToProtect-bulk-script
 
-**Requirement** Installation of the exchange online powershell module: https://learn.microsoft.com/en-us/powershell/exchange/exchange-online-powershell-v2?view=exchange-ps#install-and-maintain-the-exchange-online-powershell-module
+**Requirement**
+Installation of the exchange online powershell module: 
+https://learn.microsoft.com/en-us/powershell/exchange/exchange-online-powershell-v2?view=exchange-ps#install-and-maintain-the-exchange-online-powershell-module
 
 
 This script will allow you to import a CSV that contains all of your users that you want to protect from impersonation. 
