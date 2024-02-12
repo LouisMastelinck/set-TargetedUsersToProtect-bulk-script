@@ -15,6 +15,7 @@ Installation of the exchange online powershell module:
 
 https://learn.microsoft.com/en-us/powershell/exchange/exchange-online-powershell-v2?view=exchange-ps#install-and-maintain-the-exchange-online-powershell-module
 
+## CSV 
 
 This script will allow you to import a CSV that contains all of your users that you want to protect from impersonation. 
 A sample CSV is provided so you know how to format it. 
